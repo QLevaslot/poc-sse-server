@@ -1,0 +1,16 @@
+{
+  "name": "poc-sse-server",
+  "version": "0.0.1",
+  "description": "Small sse server for test purpose...",
+  "main": "app.js",
+  "keywords": [
+    "sse",
+    "express",
+    "node"
+  ],
+  "author": "Quentin Levaslot",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

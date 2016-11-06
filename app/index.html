@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>SSE Server</title>
+    <meta name="description" content="SSE server poc">
+    <script>
+        if (!!window.EventSource) {
+            const source = new EventSource('/stream');
+
+            source.addEventListener('message', function (e) {
+                const items = JSON.parse(e.data);
+                let itemList = "";
+                for(const item in items) {
+                    itemList += `<li>${items[item]}</li>`;
+                }
+                document.getElementById('item-list').innerHTML = itemList;
+            }, false);
+
+            source.addEventListener('open', function (e) {
+                console.log("Connection opened");
+            }, false);
+
+            source.addEventListener('error', function (e) {
+                if (e.readyState == EventSource.CLOSED) {
+                    console.log("Connection closed")
+                }
+            }, false)
+        }
+        const addItem = function () {
+            const req = new XMLHttpRequest();
+            req.open('GET', `./item?i=${document.getElementById('item-input').value}`, true);
+            req.send(null);
+        }
+    </script>
+</head>
+<body>
+<div class="title">SSE server attempt</div>
+<div class="item-handler">
+    <div class="item-add">
+        <input id="item-input" type="text"/>
+        <button onclick="addItem()">Add item</button>
+    </div>
+    <div class="">Items:</div>
+    <ul id="item-list">
+    </ul>
+</div>
+</body>
+</html>
